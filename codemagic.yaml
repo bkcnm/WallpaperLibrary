@@ -1,0 +1,28 @@
+workflows:
+  ios_unsigned:
+    name: WallpaperLibrary unsigned IPA
+    environment:
+      xcode: 27.3
+    scripts:
+      - name: Install XcodeGen
+        script: brew install xcodegen
+      - name: Generate Xcode project
+        script: xcodegen generate
+      - name: Build unsigned app
+        script: |
+          xcodebuild \
+            -project WallpaperLibrary.xcodeproj \
+            -scheme WallpaperLibrary \
+            -sdk iphoneos \
+            -configuration Release \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            build
+      - name: Package unsigned IPA
+        script: |
+          mkdir -p Payload
+          cp -R build/Build/Products/Release-iphoneos/WallpaperLibrary.app Payload/
+          zip -r WallpaperLibrary-unsigned.ipa Payload
+    artifacts:
+      - WallpaperLibrary-unsigned.ipa
