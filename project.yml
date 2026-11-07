@@ -17,6 +17,8 @@ targets:
       - WallpaperStore.swift
       - ImageDownloader.swift
       - ContentView.swift
+    info:
+      path: Info.plist
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.wallpaperlibrary.app
